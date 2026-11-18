@@ -1,2 +1,2 @@
-# misi-n-convivencia
+# mision-convivencia
 Juego educativo sobre convivencia escolar
