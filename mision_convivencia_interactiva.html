@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#315c4b">
+<title>Misión Convivencia | Aventura escolar</title>
+<style>
+:root{--green:#315c4b;--green2:#4f8068;--cream:#fbf8ef;--gold:#e9c66b;--ink:#26352d;--muted:#64736a;--line:#dce6dc;--red:#a64e45}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f3f7ef,#fbf8ef);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);line-height:1.5}
+.wrap{max-width:850px;margin:auto;padding:16px}.hero{background:linear-gradient(135deg,#294f40,#527e61);color:#fff;border-radius:24px;padding:27px 20px;text-align:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:230px;height:230px;border:1px solid #ffffff35;border-radius:50%;right:-90px;top:-120px;box-shadow:0 0 0 24px #ffffff0d,0 0 0 48px #ffffff0d}
+.kicker{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:#e3efdf;font-weight:800}.hero h1{font-size:clamp(2rem,7vw,3.1rem);line-height:1.05;margin:10px 0}.hero p{margin:8px 0 0;color:#edf5e9}.tags{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:17px}.tag{border:1px solid #ffffff55;border-radius:99px;padding:5px 11px;font-size:.8rem}
+.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;margin-top:15px;box-shadow:0 8px 24px #243b2b0a}
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.stop{background:#f4f7f1;border:1px solid var(--line);border-radius:14px;padding:13px;text-align:center}.stop .emoji{font-size:1.8rem}.stop strong{display:block;color:var(--green);font-size:.9rem}.stop small{color:var(--muted)}
+.eyebrow{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green2);font-weight:850}.mission-title{font-size:1.55rem;color:var(--green);margin:5px 0}.muted{color:var(--muted)}.topline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.score{font-weight:850;color:var(--green)}
+.progress{display:flex;gap:7px;margin:12px 0 18px}.bar{height:8px;flex:1;background:#e8eee7;border-radius:99px}.bar.done{background:var(--gold)}.bar.active{background:var(--green2)}
+.story{background:#f4f7f1;border-left:4px solid var(--green2);border-radius:12px;padding:15px;margin:15px 0}.question{font-weight:800;font-size:1.08rem;margin:17px 0 10px}
+.choice{display:flex;gap:10px;align-items:flex-start;border:1px solid #dce5dc;border-radius:13px;padding:12px;margin:9px 0;cursor:pointer;background:#fff;transition:.15s}.choice:has(input:checked){border-color:var(--green2);background:#f1f7f0}.choice input{margin-top:5px;accent-color:var(--green);flex-shrink:0}.choice.disabled{cursor:default}
+button{font:inherit;font-weight:800;border:0;border-radius:12px;padding:13px 18px;cursor:pointer;background:var(--green);color:white;width:100%;margin-top:10px}button:disabled{opacity:.42;cursor:not-allowed}.secondary{background:white;color:var(--green);border:1px solid #cbd9cc}.feedback{padding:14px;border-radius:13px;background:#eff7ee;margin-top:14px;border:1px solid #d5e7d3}.feedback.bad{background:#fff7e9;border-color:#f0dfb8}.feedback strong{display:block}.tiny{font-size:.88rem}.field{width:100%;border:1px solid #cbd9cc;border-radius:11px;padding:12px;font:inherit;margin:6px 0 12px}.end{text-align:center}.trophy{font-size:3.5rem}.foot{text-align:center;color:var(--muted);font-size:.8rem;padding:18px}.pill{display:inline-block;border-radius:99px;padding:4px 10px;background:#eef4eb;color:var(--green);font-size:.8rem;font-weight:800}
+@media(max-width:600px){.wrap{padding:11px}.hero{padding:23px 15px}.panel{padding:15px}.map{grid-template-columns:1fr}.stop{display:flex;align-items:center;text-align:left;gap:12px}.stop .emoji{font-size:1.5rem}}
+</style>
+</head>
+<body><div class="wrap">
+<header class="hero"><div class="kicker">Aventura educativa · Orientación escolar</div><h1>🌿 Misión Convivencia</h1><p>Juntos construimos una escuela en paz</p><div class="tags"><span class="tag">Grados 6.º a 9.º</span><span class="tag">3 misiones</span><span class="tag">150 puntos posibles</span></div></header>
+<section class="panel"><div class="eyebrow">Tu mapa de aventura</div><h2 style="margin:4px 0;color:#315c4b">Tres territorios, una gran misión</h2><p class="muted" style="margin:0">Responde cinco desafíos en cada territorio. Necesitas al menos 40 de 50 puntos para desbloquear el siguiente.</p>
+<div class="map"><div class="stop"><span class="emoji">🌳</span><div><strong>Bosque de la empatía</strong><small>Sentir y comprender</small></div></div><div class="stop"><span class="emoji">🌉</span><div><strong>Puente del diálogo</strong><small>Hablar y escuchar</small></div></div><div class="stop"><span class="emoji">🏞️</span><div><strong>Valle de los acuerdos</strong><small>Resolver en paz</small></div></div></div></section>
+<main class="panel" id="game" aria-live="polite"></main><div class="foot">Recurso pedagógico para orientación escolar · Misión Convivencia</div></div>
+<script>
+const missions=[
+{place:"Bosque de la empatía",emoji:"🌳",skill:"Reconocer emociones y comprender a los demás",intro:"En este bosque aprenderás a mirar más allá de lo que sucede y a pensar cómo se pueden sentir otras personas.",questions:[
+{story:"Durante una lectura en voz alta, un compañero se equivoca y algunos estudiantes se ríen. Él deja de leer y mira al suelo.",q:"¿Qué acción demuestra empatía?",a:["Reírte también para no quedar por fuera del grupo.","Acercarte, brindarle apoyo y recordar al grupo que todos podemos equivocarnos.","Decirle que no sea sensible."],c:1,why:"La empatía consiste en intentar comprender cómo se siente otra persona y actuar con respeto."},
+{story:"Una estudiante nueva llega al colegio. En el descanso permanece sola porque todavía no conoce a nadie.",q:"¿Qué podrías hacer para ayudarla a sentirse bienvenida?",a:["Invitarla a compartir y presentarle a otros compañeros.","Esperar a que ella resuelva sola la situación.","Preguntarle por qué no tiene amigos."],c:0,why:"Un gesto de bienvenida puede hacer que alguien se sienta incluido y seguro."},
+{story:"Tu compañero llega callado y no participa como siempre. No sabes qué le ocurre.",q:"¿Cuál sería una forma respetuosa de acercarte?",a:["Exigirle que cuente lo que le pasa.","Hacer bromas sobre su silencio.","Preguntarle con amabilidad si está bien y escuchar si desea hablar."],c:2,why:"Preguntar con cuidado y escuchar sin presionar demuestra interés y respeto."},
+{story:"En un trabajo, el grupo no elige la idea de una compañera y ella se muestra triste.",q:"¿Qué respuesta ayuda a reconocer sus emociones?",a:["Decirle que su idea no era importante.","Escuchar cómo se siente y revisar si su propuesta puede aportar al trabajo.","Ignorarla para terminar más rápido."],c:1,why:"Reconocer las emociones permite que todas las personas se sientan valoradas."},
+{story:"En el camino a casa escuchas que varios compañeros ponen apodos ofensivos a otro estudiante.",q:"¿Qué decisión contribuye a una convivencia empática?",a:["No repetir los apodos, apoyar al compañero y buscar ayuda de un adulto si continúa.","Repetir el apodo cuando él no esté.","Grabar la situación para compartirla."],c:0,why:"No participar en las burlas, acompañar a quien las recibe y pedir apoyo ayuda a detener el daño."}
+]},
+{place:"Puente del diálogo",emoji:"🌉",skill:"Comunicación asertiva, escucha y respeto",intro:"Para cruzar este puente debes demostrar que puedes expresar tus ideas sin agredir y escuchar a quienes piensan diferente.",questions:[
+{story:"En un equipo, dos estudiantes tienen ideas distintas para la exposición. Uno levanta la voz y descalifica al otro.",q:"¿Qué respuesta ayuda a resolver el desacuerdo?",a:["Gritar más fuerte para defender tu idea.","Escuchar ambas propuestas y explicar las opiniones sin ofender.","Dejar de trabajar y culpar al compañero."],c:1,why:"La comunicación asertiva permite expresar lo que pensamos con claridad y respeto."},
+{story:"Un compañero toma tu cuaderno sin pedir permiso.",q:"¿Cómo puedes expresar tu molestia de manera asertiva?",a:["Quitarle sus cosas para que aprenda.","Insultarlo delante del curso.","Decirle con calma que necesitas que te pida permiso antes de tomar tus cosas."],c:2,why:"Hablar en primera persona y expresar lo que necesitas evita la agresión y aclara el límite."},
+{story:"Mientras una compañera explica su opinión, varios la interrumpen.",q:"¿Qué demuestra una escucha activa?",a:["Prestar atención, dejarla terminar y hacer preguntas respetuosas.","Mirar el celular mientras habla.","Preparar una respuesta sin escucharla."],c:0,why:"Escuchar activamente significa atender, respetar los turnos y tratar de comprender el mensaje."},
+{story:"Un amigo te cuenta un problema y te pide que lo escuches.",q:"¿Cuál es la mejor manera de responder?",a:["Cambiar el tema y hablar de ti.","Escucharlo sin burlas y preguntarle qué necesita.","Decirle que su problema no es importante."],c:1,why:"Escuchar con respeto ayuda a que la otra persona se sienta acompañada."},
+{story:"En el grupo de mensajería del curso alguien escribe un comentario ofensivo sobre un compañero.",q:"¿Qué uso responsable de la comunicación puedes hacer?",a:["Compartir el mensaje para que todos lo vean.","Responder con otro insulto.","No difundirlo, pedir que se detengan las ofensas y avisar a un adulto responsable."],c:2,why:"La comunicación respetuosa también se practica en medios digitales. No difundir agresiones evita que el daño crezca."}
+]},
+{place:"Valle de los acuerdos",emoji:"🏞️",skill:"Resolver conflictos mediante diálogo y acuerdos",intro:"Has llegado al último territorio. Aquí tendrás que encontrar soluciones justas en las que las personas puedan participar.",questions:[
+{story:"Dos estudiantes necesitan usar el mismo material al mismo tiempo para realizar una actividad.",q:"¿Qué solución puede ser justa para ambos?",a:["Dialogar y organizar turnos para compartir el material.","Esconder el material para que nadie lo use.","Dejar que lo use quien grite más."],c:0,why:"Un acuerdo justo tiene en cuenta las necesidades de las personas y se cumple entre todos."},
+{story:"En el partido del recreo surge una discusión porque no se ponen de acuerdo sobre si una jugada fue válida.",q:"¿Qué pueden hacer para continuar jugando en paz?",a:["Cancelar el partido insultándose.","Escuchar las versiones y acordar una regla para continuar.","Expulsar del juego a quien opine diferente."],c:1,why:"Escuchar las versiones y establecer reglas compartidas ayuda a resolver desacuerdos."},
+{story:"Dos compañeros discutieron y ahora ninguno quiere hablar con el otro, aunque deben trabajar juntos.",q:"¿Cuál puede ser un primer paso para reparar la relación?",a:["Obligarlos a ser amigos inmediatamente.","Pedir al grupo que tome partido.","Propiciar un diálogo respetuoso para expresar lo ocurrido y buscar una solución."],c:2,why:"El diálogo permite reconocer el daño, escuchar a las partes y buscar formas de reparar la situación."},
+{story:"En un equipo, siempre la misma persona realiza todas las tareas y está cansada.",q:"¿Qué acuerdo mejoraría el trabajo en equipo?",a:["Distribuir las responsabilidades de manera clara y equilibrada.","Decirle que debe seguir haciéndolo todo.","Dejar el trabajo sin terminar."],c:0,why:"Los acuerdos funcionan mejor cuando las responsabilidades son claras y se comparten."},
+{story:"Después de una discusión, el grupo propone un acuerdo para evitar que vuelva a ocurrir, pero nadie sabe cómo verificarlo.",q:"¿Qué debería incluir un buen acuerdo?",a:["Una promesa general que nadie recuerde.","Acciones concretas, responsables y un momento para revisar su cumplimiento.","Un castigo decidido por una sola persona."],c:1,why:"Un acuerdo útil es claro, posible, compartido y puede revisarse para saber si se está cumpliendo."}
+]}
+];
+let missionIndex=0,questionIndex=0,missionPoints=0,totalPoints=0,selected=null,locked=false,passed=[false,false,false],name="";
+const game=document.getElementById("game");
+function progressBars(){return missions.map((m,i)=>`<div class="bar ${passed[i]?'done':i===missionIndex?'active':''}"></div>`).join("")}
+function render(){
+ const m=missions[missionIndex],q=m.questions[questionIndex];
+ game.innerHTML=`<div class="topline"><span class="eyebrow">Misión ${missionIndex+1} de 3 · Desafío ${questionIndex+1} de 5</span><span class="score">${totalPoints} / 150 puntos</span></div>
+ <div class="progress">${progressBars()}</div><h2 class="mission-title">${m.emoji} ${m.place}</h2><p class="muted tiny">${m.skill}</p>
+ <div class="topline"><span class="pill">Puntos de esta misión: ${missionPoints}/50</span><span class="pill">Meta: 40 puntos</span></div>
+ <div class="story">${m.intro}<hr style="border:0;border-top:1px solid #dce6dc"><strong>Situación ${questionIndex+1}</strong><br>${q.story}</div>
+ <div class="question">${q.q}</div><div>${q.a.map((a,i)=>`<label class="choice"><input type="radio" name="answer" value="${i}" ${selected===i?"checked":""} ${locked?"disabled":""}><span><b>${String.fromCharCode(65+i)}.</b> ${a}</span></label>`).join("")}</div><div id="feedback"></div><button id="action" ${selected===null||locked?"disabled":""}>Comprobar respuesta</button>`;
+ game.querySelectorAll('input[name="answer"]').forEach(el=>el.addEventListener("change",e=>{selected=Number(e.target.value);document.getElementById("action").disabled=false}));
+ document.getElementById("action").onclick=checkAnswer;
+}
+function checkAnswer(){
+ const q=missions[missionIndex].questions[questionIndex],ok=selected===q.c;locked=true;if(ok){missionPoints+=10;totalPoints+=10}
+ const fb=document.getElementById("feedback");fb.className="feedback "+(ok?"":"bad");
+ fb.innerHTML=`<strong>${ok?"🎉 ¡Muy bien! Ganaste 10 puntos.":"💡 ¡Sigue aprendiendo! Esta respuesta no suma puntos."}</strong><p>${q.why}</p>`;
+ const btn=document.getElementById("action");btn.disabled=false;
+ btn.textContent=questionIndex===4?(missionPoints>=40?"Ver resultado de la misión":"Intentar nuevamente la misión"):"Continuar";
+ btn.onclick=nextStep;
+}
+function nextStep(){
+ if(questionIndex<4){questionIndex++;selected=null;locked=false;render();return}
+ if(missionPoints<40){renderRetry();return}
+ passed[missionIndex]=true;
+ if(missionIndex<2){missionIndex++;questionIndex=0;missionPoints=0;selected=null;locked=false;render();return}
+ finish();
+}
+function renderRetry(){
+ game.innerHTML=`<div class="end"><div class="trophy">🌱</div><div class="eyebrow">Todavía puedes lograrlo</div><h2 style="color:#315c4b">¡No te rindas, explorador!</h2><div class="score" style="font-size:1.8rem">${missionPoints} de 50 puntos</div><p>Para desbloquear el siguiente territorio necesitas 40 puntos. Vuelve a intentar esta misión, lee con atención y piensa en cada situación.</p><button id="retry">Repetir los 5 desafíos</button></div>`;
+ document.getElementById("retry").onclick=()=>{totalPoints-=missionPoints;missionPoints=0;questionIndex=0;selected=null;locked=false;render()};
+}
+function finish(){
+ game.innerHTML=`<div class="end"><div class="trophy">🏆</div><div class="eyebrow">¡Aventura completada!</div><h2 style="color:#315c4b">¡Has conquistado los tres territorios!</h2><div class="score" style="font-size:2.1rem">${totalPoints} de 150 puntos</div><p>Superaste las tres misiones. Recuerda: la empatía, el diálogo y los acuerdos se practican todos los días.</p><span class="pill">🌳 Empatía · 🌉 Diálogo · 🏞️ Acuerdos</span></div><hr style="border:0;border-top:1px solid #e5ece4;margin:20px 0">
+ <label for="student"><b>Tu nombre (opcional)</b></label><input class="field" id="student" placeholder="Escribe tu nombre" value="${name}">
+ <label for="commitment"><b>Mi compromiso con la convivencia</b></label><p class="muted tiny">Escribe una acción concreta que pondrás en práctica en tu colegio.</p><textarea class="field" id="commitment" rows="3" placeholder="Me comprometo a..."></textarea>
+ <button id="copy">Copiar mi resultado y compromiso</button><button class="secondary" id="restart">Jugar nuevamente</button>`;
+ document.getElementById("copy").onclick=()=>{const n=document.getElementById("student").value.trim()||"Sin nombre";const c=document.getElementById("commitment").value.trim();if(!c){alert("Escribe tu compromiso antes de copiarlo.");return}const txt=`MISIÓN CONVIVENCIA\nParticipante: ${n}\nResultado: ${totalPoints}/150 puntos\nMisiones superadas: 3 de 3\nMi compromiso: ${c}`;const area=document.createElement("textarea");area.value=txt;document.body.appendChild(area);area.select();try{document.execCommand("copy");alert("¡Resultado copiado! Puedes pegarlo en tu cuaderno o compartirlo con tu docente.")}catch(e){alert(txt)}area.remove()};
+ document.getElementById("restart").onclick=()=>{missionIndex=0;questionIndex=0;missionPoints=0;totalPoints=0;selected=null;locked=false;passed=[false,false,false];render()};
+}
+render();
+</script></body></html>
